@@ -1,0 +1,1820 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="robots" content="noindex, nofollow">
+    <title>국가유산관련법령 모의고사</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=Noto+Sans+KR:wght@400;500;700&display=swap"
+        rel="stylesheet">
+
+    <!-- 부트스트랩 CSS 추가 -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- 부트스트랩 JS 및 제이쿼리 추가 -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        /* 1️⃣ 전체 기본값: 시험지 본문 */
+        body {
+            font-family: 'Noto Serif KR', serif;
+            color: #000;
+            font-size: 20px;
+            line-height: 1.7;
+        }
+
+        body {
+            background-color: #e0e0e0;
+            /* 전체 배경 명암 처리 */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            padding-top: 20px;
+        }
+
+        /* 전체 컨테이너 */
+        .container {
+            width: 25cm;
+            /* 전체 시험지 크기 */
+            background-color: white;
+            /* 시험지 영역을 화이트로 */
+            margin: 0 auto;
+            /* 중앙 정렬 */
+            padding: 50px;
+            box-sizing: border-box;
+            margin-bottom: 30px;
+        }
+
+        /* 페이지 하단의 이전/다음 버튼 */
+        .footer {
+            position: absolute;
+            bottom: -60px;
+            /* 문제지 박스 외곽 경계선 아래에 위치 */
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 10px;
+            /* 버튼과 좌우 화면 끝 사이 간격 */
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            width: auto;
+            /* 버튼의 너비가 경계선을 넘지 않게 자동으로 조정 */
+        }
+
+        /* 헤드 영역 */
+        .header {
+            width: 100%;
+            max-width: 24cm;
+            /* 18cm로 고정된 시험지 폭 */
+            height: 50px;
+            border: 2px solid black;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 8px;
+            /* 상단 패딩 */
+
+            box-sizing: border-box;
+            background-color: rgba(220, 220, 220, 0.5);
+            /* 약한 회색 배경 */
+            line-height: 50px;
+        }
+
+        .left-header {
+            padding-left: 20px;
+            /* 좌측 텍스트를 안으로 넣음 */
+        }
+
+        .right-header {
+            padding-right: 40px;
+            /* 우측 텍스트를 안으로 넣음 */
+        }
+
+        /* 문제 영역의 좌우 배치 대신 위아래 배치 */
+        .problem-area {
+            width: 22cm;
+            border: none;
+            /* 외곽 경계선 제거 */
+            padding: 40px;
+            box-sizing: border-box;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            /* 세로 방향으로 배치 */
+            position: relative;
+            font-size: 17px !important;
+        }
+
+        /* 문제 영역에 임시 배경 컬러 추가 */
+        .question {
+            margin-bottom: 23px !important;
+            /* 질문지와 질문지 사이 간격 줄이기 */
+            padding: 5px;
+            background-color: transparent;
+            /* 문제 내부는 흰색으로 강조 */
+
+            box-sizing: border-box;
+        }
+
+        /* 질문 텍스트 줄바꿈 설정 */
+        .question p {
+            margin: 8px;
+            /* 질문지와 답지 사이 간격 줄이기 */
+            text-indent: -1em;
+            /* 질문 번호 바로 아래에서 시작되지 않도록 */
+            padding-left: 0.5em;
+            /* 첫 줄 이후 줄 시작을 동일하게 맞춤 */
+        }
+
+        .choices {
+            margin-top: 0px !important;
+            /* 질문지와 답지 사이 간격을 줄이기 */
+        }
+
+        /* 선택지 텍스트 줄바꿈 설정 */
+        .choices .choice {
+            text-indent: -1.5em;
+            /* 선택지 번호 바로 아래에서 줄이 시작되지 않도록 */
+            padding-left: 2em;
+            /* 첫 줄 이후 줄 시작을 동일하게 맞춤 */
+            margin-bottom: 5px;
+        }
+
+        /* 선택지 버튼 활성화 */
+        .choice-button {
+            width: 30px;
+            /* 선택지 버튼의 넓이 */
+            height: 30px;
+            /* 선택지 버튼의 높이 */
+            line-height: 30px;
+            /* 텍스트를 중앙에 배치 */
+            text-align: center;
+            /* 텍스트 중앙 정렬 */
+            border-radius: 50%;
+            /* 둥근 버튼 */
+            padding: 0;
+            /* 추가 여백 없음 */
+            margin-right: 5px;
+            /* 선택지 텍스트와의 간격 */
+            cursor: pointer;
+            box-sizing: border-box;
+            /* 테두리와 내부 여백을 포함한 크기 정의 */
+            position: relative;
+            /* ✔ 표시 위치 기준 */
+        }
+
+        .choice-button.selected::after {
+            content: '✔';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -45%);
+            /* 중심에서 약간 위 */
+            font-size: 19px;
+            font-weight: bold;
+
+            pointer-events: none;
+        }
+
+        .choice-button.selected.correct::after {
+            color: black;
+        }
+
+        /* 오답인 경우 (빨강) */
+        .choice-button.selected.incorrect::after {
+            color: red;
+        }
+
+        /* 버튼에 마우스를 올렸을 때 투명한 원형 실선 유지 */
+        .choice-button:hover {
+            border-color: transparent;
+            /* 여전히 투명 */
+        }
+
+        .choices-horizontal {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            /* 줄바꿈 허용 (선택사항); 2유형 */
+            gap: 10px;
+        }
+
+        .choices-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5px 20px;
+            /* 세로(위 아래 간격) 10px, 가로(좌우 간격) 30px 간격 ; 3유형 */
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 13cm;
+            /* 가로 13cm */
+            height: 7cm;
+            /* 세로 7cm */
+            border-radius: 10px;
+            /* 각 모서리 레디우스 10px */
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            /* 상단 약한 명암 처리 */
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            /* 좌우 정렬 */
+            align-items: center;
+            /* 내용 수직 중앙 정렬 */
+            font-size: 20px;
+            /* 상단 폰트 크기 */
+            font-weight: bold;
+            padding-bottom: 10px;
+            border-bottom: 1px solid lightgray;
+            /* 상단 구분선 */
+            height: 40px;
+            /* 상단의 높이 고정 */
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            /* 확인 버튼 우측 정렬 */
+            border-top: none;
+            /* 보이지 않게 투명 처리 */
+        }
+
+        .modal-body {
+            padding: 6px;
+            font-size: 16px;
+            /* 텍스트 폰트 크기 */
+            line-height: 1.5;
+            /* 줄 간격 설정 */
+        }
+
+        button.confirm-button {
+            width: 50px;
+            /* 버튼의 너비 */
+            height: 30px;
+            /* 버튼의 높이 */
+            padding: 3px 3px;
+            /* 내부 여백 조정 */
+            margin: 0;
+            /* 외부 여백 제거 */
+            line-height: normal;
+            /* 텍스트가 중앙에 위치하도록 */
+            border-radius: 10px;
+            /* 모서리 둥글게 */
+            background-color: rgb(161, 160, 160);
+            /* 버튼 배경색 (녹색) */
+            color: white;
+            /* 버튼 글씨색 */
+            font-size: 16px;
+            /* 폰트 크기 */
+            border: none;
+            /* 테두리 제거 */
+            cursor: pointer;
+            /* 커서 모양 변경 */
+        }
+
+        button.confirm-button:hover {
+            background-color: #45a049;
+            /* 마우스 오버 시 버튼 색상 */
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* 2️⃣ 문제 본문 */
+        .question p {
+            font-family: 'Noto Serif KR', serif;
+            margin-bottom: 14px;
+        }
+
+        /* 3️⃣ 보기 문장 */
+        .choice {
+            font-family: 'Noto Serif KR', serif;
+            line-height: 1.8;
+        }
+
+        /* 4️⃣ 법조문 */
+        .modal-body p {
+            font-family: 'Noto Serif KR', serif;
+            font-size: 15px;
+            line-height: 1.75;
+        }
+
+        /* 5️⃣ 버튼·UI는 고딕 */
+        button,
+        .choice-button,
+        .modal-header,
+        .confirm-button,        
+        .navbar {
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        /* 6️⃣ 문제 번호 강조 */
+        .question>p {
+            font-weight: 600;
+        }
+
+        /* 7️⃣ 보기 번호(①②③④) */
+        .choice-button {
+            font-weight: 600;
+            margin-right: 6px;
+
+        }
+
+        /* 8️⃣ 문제 본문 크기 (실제 시험지 기준) */
+        .question p {
+            font-size: 15.7px;
+            line-height: 1.7;
+        }
+
+        /* 9️⃣ 선택지 문장 */
+        .choice {
+            font-size: 15.7px;
+            line-height: 1.75;
+        }
+
+        /* 🔟 법조문 */
+        .modal-body p {
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        /* 선택지 번호 원 안 숫자 강조 완전 제거 */
+        .choice-button {
+            font-weight: 500;
+            /* 기본 두께 */
+            font-size: 15.7px;
+            /* 선택지 텍스트와 동일 */
+            font-family: 'Noto Serif KR', serif;
+
+            /* 클릭은 되되, 시험지처럼 보이게 */
+            cursor: pointer;
+        }
+    </style>
+    <style>
+        #startBtn {
+            width: 68px;
+            height: 32px;
+
+            /* 글자 중앙 정렬 (핵심) */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 0;
+            /* 🔥 핵심 1 */
+            white-space: nowrap;
+            /* 🔥 핵심 2 */
+
+            font-size: 15px;
+            font-weight: 500;
+
+            /* 완만한 테두리 */
+            border-radius: 8px;
+            border: 1px solid #bbb;
+
+            background-color: #f2f2f2;
+            cursor: pointer;
+
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+        }
+
+        /* 마우스 오버 */
+        #startBtn:hover {
+            background-color: #dcdcdc;
+            border-color: #999;
+        }
+
+        /* 클릭 불가 상태 */
+        #startBtn:disabled {
+            background-color: #eee;
+            color: #aaa;
+            cursor: default;
+        }
+    </style>
+
+    <script>
+        function handleChoiceClick(element, isCorrect, modalId) {
+            const questionBox = element.closest('.question'); // 해당 문제 영역
+            const buttons = questionBox.querySelectorAll('.choice-button');
+
+            // 기존 선택 해제 및 클래스 제거
+            buttons.forEach(btn => {
+                btn.classList.remove('selected', 'correct', 'incorrect');
+            });
+
+            // 새 선택 적용
+            element.classList.add('selected');
+            if (isCorrect) {
+                element.classList.add('correct');
+            } else {
+                element.classList.add('incorrect');
+            }
+
+            // 정오답 처리
+            const answerText = document.getElementById(modalId).querySelector('#answerText');
+            answerText.textContent = isCorrect ? '정답입니다!' : '오답입니다.';
+            document.getElementById(modalId).style.display = "block";
+        }
+    </script>
+    <script>
+        function openAnswerModal(isCorrect, modalId) {
+            // 정답 여부 설정
+            const answerText = document.getElementById(modalId).querySelector('#answerText');
+            answerText.textContent = isCorrect ? '정답입니다!' : '오답입니다.';
+
+            // 모달창 열기
+            document.getElementById(modalId).style.display = "block";
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = "none";
+        }
+
+    </script>
+    <style>
+        body {
+            user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+        }
+    </style>
+    <script>
+        document.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+        });
+        document.addEventListener('selectstart', function (e) {
+            e.preventDefault();
+        });
+    </script>
+
+</head>
+
+<body>
+
+    <!-- 전체 컨테이너 -->
+    <div class="container">
+        <!-- 헤드 영역 -->
+        <div class="header">
+            <div class="left-header">
+                <h1 style="font-size: 24px; font-weight: 550; line-height: normal;">예비 모의고사</h1>
+                <!-- 수동 입력 -->
+            </div>
+            <div class="right-header">
+                <h3 style="font-size: 20px; line-height: normal;"> (2026. 09) </h3> <!-- 수동 입력 -->
+            </div>
+        </div>
+        <!-- 문제 영역 -->
+        <div class="problem-area">
+            <!-- 좌측 문제 칸 -->
+            <div class="left-column">
+                
+                <!-- 문제 영역 -->
+                <div class="question">
+                    <p>1. 문화유산의 보존 및 활용에 관한 법률상 “문화유산”의 정의에 관한 설명으로 옳은 것은? </p>
+                    <div class="choices">
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal1')">①</span>
+                            유형문화유산은 의복, 기구, 가옥 등으로서 국민생활의 변화를 이해하는 데 반드시 필요한 것이다.
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal1')">②</span>
+                            기념물은 사적지(史蹟地)와 특별히 기념이 될 만한 시설물로서 역사적ㆍ학술적 또는 경관적 가치가 큰 것이어야 한다.
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button" onclick="handleChoiceClick(this, false, 'answerModal1')">③</span>
+                            민속문화유산은 공동체ㆍ집단과 역사ㆍ환경의 상호작용으로 끊임없이 재창조된 것이다.  
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, true, 'answerModal1')">④</span> 
+                            유형의 문화적 유산은 우리 역사와 전통의 산물로서 문화의 고유성, 겨레의 정체성 및 국민생활의 변화를 나타내는 문화유산을 말한다.    
+                        </div>
+                    </div>
+                </div>
+                <!-- 문제 영역이 끝나는 부분 아래에 배치 -->
+                <div id="answerModal1" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span id="answerText">정답입니다!</span> <!-- 좌측 정답 여부 표시 -->
+                            <button class="confirm-button" onclick="closeModal('answerModal1')">확인</button>
+                            <!-- 우측 끝 확인 버튼 -->
+                        </div>
+                        <!-- 하단 텍스트 영역을 아래에 배치 -->
+                        <div class="modal-body">
+                            <p id="lawText">법조문 ; 문화유산의 보존 및 활용에 관한 법률 제2조 제1항 <br> (정의) ① 이 법에서 “문화유산”이란 「국가유산기본법」 제3조제2호에 해당하는 다음 각 호의 것을 말한다.
+                            </p> <!-- 법조문 표시 -->
+                        </div>
+                    </div>
+                </div>
+                <!-- 문제 영역 -->
+                <div class="question">
+                    <p>2. 문화유산의 보존 및 활용에 관한 법률상 문화유산의 정의에 관한 설명으로 옳지 않은 것은? 
+                    </p>
+                    <div class="choices">
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal2')">①</span>
+                            “문화유산”이란 우리 역사와 전통의 산물로서 문화의 고유성, 겨레의 정체성 및 국민생활의 변화를 나타내는 유형의 문화적 유산을 말한다. 
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button" onclick="handleChoiceClick(this, false, 'answerModal2')">②</span>
+                            자연유산법령상 천연기념물등은 문화유산이 아니다.
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal2')">③</span>
+                            무형유산법령상 한의학, 농경. 어로 등에 관한 전통지식은 문화유산이 아니다.
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, true, 'answerModal2')">④</span>
+                            절터, 옛무덤, 조개무덤, 성터, 궁터, 가마터, 유물포함층 등의 사적지(史蹟地)와 특별히 기념이 될 만한 시설물로서 역사적ㆍ학술적 가치가 큰 것은 유형문화유산이다.
+                        </div>
+                    </div>
+                </div>
+                <!-- 문제 영역이 끝나는 부분 아래에 배치 -->
+                <div id="answerModal2" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span id="answerText">정답입니다!</span> <!-- 좌측 정답 여부 표시 -->
+                            <button class="confirm-button" onclick="closeModal('answerModal2')">확인</button>
+                            <!-- 우측 끝 확인 버튼 -->
+                        </div>
+                        <!-- 하단 텍스트 영역을 아래에 배치 -->
+                        <div class="modal-body">
+                            <p id="lawText">법조문 ; 문화유산의 보존 및 활용에 관한 법률 제2조 제1항 <br> (정의) ① 이 법에서 “문화유산”이란 「국가유산기본법」 제3조제2호에 해당하는 다음 각 호의 것을 말한다.
+                            </p>
+                            <!-- 법조문 표시 -->
+                        </div>
+                    </div>
+                </div>                
+                <!-- 문제 영역 -->
+                <div class="question">
+                    <p>3. 문화유산의 보존 및 활용에 관한 법률상 유형문화유산의 대상이 아닌 것은?
+                    </p>
+                    <div class="choices">
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal3')">①</span>
+                            건조물
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button" onclick="handleChoiceClick(this, false, 'answerModal3')">②</span>
+                            서적(書跡)
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, true, 'answerModal3')">③</span>
+                            절터, 옛무덤, 조개무덤, 성터, 궁터, 가마터, 유물포함층 등의 사적지(史蹟地)
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal3')">④</span>
+                            고고자료(考古資料)
+                        </div>
+                    </div>
+                </div>
+                <!-- 문제 영역이 끝나는 부분 아래에 배치 -->
+                <div id="answerModal3" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span id="answerText">정답입니다!</span> <!-- 좌측 정답 여부 표시 -->
+                            <button class="confirm-button" onclick="closeModal('answerModal3')">확인</button>
+                            <!-- 우측 끝 확인 버튼 -->
+                        </div>
+                        <!-- 하단 텍스트 영역을 아래에 배치 -->
+                        <div class="modal-body">
+                            <p id="lawText">법조문 ; 문화유산의 보존 및 활용에 관한 법률 제2조 제1항 제1호 <br> 1. 유형문화유산: 건조물, 전적(典籍: 글과 그림을 기록하여 묶은 책), 서적(書跡), 고문서, 회화, 조각, 공예품 등 유형의 문화적 소산으로서 역사적ㆍ예술적 또는 학술적 가치가 큰 것과 이에 준하는 고고자료(考古資料) 
+                            </p>
+                            <!-- 법조문 표시 -->
+                        </div>
+                    </div>
+                </div>
+                <div class="question">
+                    <p>4. 문화유산의 보존 및 활용에 관한 법률상 국민생활의 변화를 이해하는 데 반드시 필요한 것은? </p>
+                    <div class="choices">
+                        <div class="choice">
+                            <span class="choice-button" onclick="handleChoiceClick(this, false, 'answerModal4')">①</span>
+                            회화, 조각, 공예품 
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal4')">②</span>
+                            조개무덤, 성터, 궁터, 유물포함층 등의 사적지(史蹟地)와 특별히 기념이 될 만한 시설물
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, true, 'answerModal4')">③</span>
+                            민속문화유산
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal4')">④</span>
+                            고고자료(考古資料)
+                        </div>
+                    </div>
+                </div>
+                <!-- 문제 영역이 끝나는 부분 아래에 배치 -->
+                <div id="answerModal4" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span id="answerText">정답입니다!</span> <!-- 좌측 정답 여부 표시 -->
+                            <button class="confirm-button" onclick="closeModal('answerModal4')">확인</button>
+                            <!-- 우측 끝 확인 버튼 -->
+                        </div>
+                        <!-- 하단 텍스트 영역을 아래에 배치 -->
+                        <div class="modal-body">
+                            <p id="lawText">법조문 ; 문화유산의 보존 및 활용에 관한 법률 제2조 제1항 제4호 <br> 4. 민속문화유산: 의식주, 생업, 신앙, 연중행사 등에 관한 풍속이나 관습에 사용되는 의복, 기구, 가옥 등으로서 국민생활의 변화를 이해하는 데 반드시 필요한 것
+                            </p> <!-- 법조문 표시 -->
+                        </div>
+                    </div>
+                </div>
+                <!-- 문제 영역 -->
+                <div class="question">
+                    <p>5. 문화유산의 보존 및 활용에 관한 법률상 국가유산청장 또는 특별시장ㆍ광역시장ㆍ특별자치시장ㆍ도지사 또는 특별자치도지사가 이 법에 따라 지정하는 대상이 아닌 것은? 
+                    </p>
+                    <div class="choices">
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal5')">①</span>
+                            문화유산자료
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal5')">②</span>
+                            보호물 및 보호구역
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button" onclick="handleChoiceClick(this, true, 'answerModal5')">③</span>
+                            역사문화환경
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal5')">④</span>
+                            국가민속문화유산
+                        </div>
+                    </div>
+                </div>
+                <!-- 문제 영역이 끝나는 부분 아래에 배치 -->
+                <div id="answerModal5" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span id="answerText">정답입니다!</span> <!-- 좌측 정답 여부 표시 -->
+                            <button class="confirm-button" onclick="closeModal('answerModal5')">확인</button>
+                            <!-- 우측 끝 확인 버튼 -->
+                        </div>
+                        <!-- 하단 텍스트 영역을 아래에 배치 -->
+                        <div class="modal-body">
+                            <p id="lawText">법조문 ; 문화유산의 보존 및 활용에 관한 법률 제2조 제7항  <br> ⑦ 이 법에서 “역사문화환경”이란 문화유산 주변의 자연경관이나 역사적ㆍ문화적인 가치가 뛰어난 공간으로서 문화유산과 함께 보호할 필요성이 있는 주변 환경을 말한다.
+                            </p>
+                            <!-- 법조문 표시 -->
+                        </div>
+                    </div>
+                </div>
+                <div class="question">
+                    <p>6. 문화유산의 보존 및 활용에 관한 법령상 문화유산의 종류가 아닌 것은?  </p>
+                    <div class="choices">
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal6')">①</span>
+                            유형문화유산 
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal6')">②</span>
+                            기념물
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal6')">③</span>
+                            민속문화유산
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button" onclick="handleChoiceClick(this, true, 'answerModal6')">④</span>
+                            보호물 및 보호구역
+                        </div>
+                    </div>
+                </div>
+                <!-- 문제 영역이 끝나는 부분 아래에 배치 -->
+                <div id="answerModal6" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span id="answerText">정답입니다!</span> <!-- 좌측 정답 여부 표시 -->
+                            <button class="confirm-button" onclick="closeModal('answerModal6')">확인</button>
+                            <!-- 우측 끝 확인 버튼 -->
+                        </div>
+                        <!-- 하단 텍스트 영역을 아래에 배치 -->
+                        <div class="modal-body">
+                            <p id="lawText">법조문 ; 문화유산의 보존 및 활용에 관한 법률 제2조 제1항 <br> (정의) ① 이 법에서 “문화유산”이란 「국가유산기본법」 제3조제2호에 해당하는 다음 각 호의 것을 말한다. 
+                            </p> <!-- 법조문 표시 -->
+                        </div>
+                    </div>
+                </div>
+                <!-- 문제 영역 -->
+                <div class="question">
+                    <p>7. 문화유산의 보존 및 활용에 관한 법령상 “건설공사“에 해당하지 않은 것은? 
+                    </p>
+                    <div class="choices">
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal7')">①</span>
+                            건설공사란 토목공사, 건축공사, 조경공사 또는 토지나 해저의 원형변경이 수반되는 공사를 말한다.  
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, true, 'answerModal7')">②</span>
+                            「소방시설공사업법」에 따른 소방시설공사는 지정문화유산의 보존에 영향을 미칠 우려가 있는 경우만 건설공사에 해당한다. 
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button" onclick="handleChoiceClick(this, false, 'answerModal7')">③</span>
+                            토지 또는 해저의 원형변경은 땅깎기, 다시 메우기, 땅파기, 골재 채취(採取), 광물 채취, 준설(浚渫), 수몰 또는 매립 등을 말한다.
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal7')">④</span>
+                            국가지정문화유산의 보호구역안에서 수목을 식재(植栽)하거나 제거하는 공사는 건설공사이다.
+                        </div>
+                    </div>
+                </div>
+                <!-- 문제 영역이 끝나는 부분 아래에 배치 -->
+                <div id="answerModal7" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span id="answerText">정답입니다!</span> <!-- 좌측 정답 여부 표시 -->
+                            <button class="confirm-button" onclick="closeModal('answerModal7')">확인</button>
+                            <!-- 우측 끝 확인 버튼 -->
+                        </div>
+                        <!-- 하단 텍스트 영역을 아래에 배치 -->
+                        <div class="modal-body">
+                            <p id="lawText">법조문 ; 문화유산의 보존 및 활용에 관한 법률 시행령 제2조 제1항 <br> (건설공사의 범위) 법 제2조제8항에서 “대통령령으로 정하는 공사”란 다음 각 호의 공사를 말한다. 다만, 제2호부터 제4호까지의 공사는 지표(地表)의 원형을 변형하는 경우만 해당한다. 
+                            </p>
+                            <!-- 법조문 표시 -->
+                        </div>
+                    </div>
+                </div>
+                <div class="question">
+                    <p>8. 문화유산의 보존 및 활용에 관한 법률상 문화유산보호의 기본원칙에 관한 설명으로 옳은 것은? </p>
+                    <div class="choices">
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal8')">①</span>
+                            문화유산의 보존을 기본원칙으로 한다.
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal8')">②</span>
+                            문화유산의 보존ㆍ관리를 기본원칙으로 한다.
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button" onclick="handleChoiceClick(this, false, 'answerModal8')">③</span>
+                            문화유산의 보존ㆍ관리 및 활용을 기본원칙으로 한다. 
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, true, 'answerModal8')">④</span> 
+                            문화유산의 보존ㆍ관리 및 활용은 원형유지를 기본원칙으로 한다.    
+                        </div>
+                    </div>
+                </div>
+                <!-- 문제 영역이 끝나는 부분 아래에 배치 -->
+                <div id="answerModal8" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span id="answerText">정답입니다!</span> <!-- 좌측 정답 여부 표시 -->
+                            <button class="confirm-button" onclick="closeModal('answerModal8')">확인</button>
+                            <!-- 우측 끝 확인 버튼 -->
+                        </div>
+                        <!-- 하단 텍스트 영역을 아래에 배치 -->
+                        <div class="modal-body">
+                            <p id="lawText">법조문 ; 문화유산의 보존 및 활용에 관한 법률 제3조  <br> (문화유산보호의 기본원칙)- 법조문 참조
+                            </p> <!-- 법조문 표시 -->
+                        </div>
+                    </div>
+                </div>
+                <div class="question">
+                    <p>9. 문화유산의 보존 및 활용에 관한 법령상 문화유산 관리 등 업무를 위한 전문인력(이하 “전문인력”이라 한다)의 배치 등에 관한 내용으로 옳은 것은? </p>
+                    <div class="choices">
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal9')">①</span>
+                            전문인력의 배치에 관한 사항은 문화유산기본계획에 해당한다.
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal9')">②</span>
+                            지방자치단체의 장은 해당 기관의 문화유산 업무를 수행할 전담부서를 설치하고 문화유산전담관을 위촉하여야 한다.
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button" onclick="handleChoiceClick(this, true, 'answerModal9')">③</span>
+                            문화유산 관련 법령에 따른 관할 지역 문화유산의 조사ㆍ연구 추진은 전문인력의 업무에 해당한다.
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal9')">④</span> 
+                            전담부서에 배치되는 전문인력은 문화유산 관련 업무를 1년 6개월 이상 수행한 공무원이어야 한다.    
+                        </div>
+                    </div>
+                </div>
+                <!-- 문제 영역이 끝나는 부분 아래에 배치 -->
+                <div id="answerModal9" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span id="answerText">정답입니다!</span> <!-- 좌측 정답 여부 표시 -->
+                            <button class="confirm-button" onclick="closeModal('answerModal9')">확인</button>
+                            <!-- 우측 끝 확인 버튼 -->
+                        </div>
+                        <!-- 하단 텍스트 영역을 아래에 배치 -->
+                        <div class="modal-body">
+                            <p id="lawText">법조문 ; 문화유산의 보존 및 활용에 관한 법률 시행령 제2조의2 제3항 <br> ③ 문화유산 관리 전문인력은 해당 지방자치단체에서 문화유산 업무를 담당하는 다음 각 호의 어느 하나에 해당하는 공무원을 말한다.
+                            </p> <!-- 법조문 표시 -->
+                        </div>
+                    </div>
+                </div>               
+                <!-- 문제 영역 -->
+                <div class="question">
+                    <p>10. 문화유산의 보존 및 활용에 관한 법령상 지방자치단체의 장이 문화유산 관리 등 업무를 위해 배치하여야 하는 문화유산 관리 전문인력의 범위에 해당하지 않은 것은? 
+                    </p>
+                    <div class="choices">
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, true, 'answerModal10')">①</span>
+                            문화유산전담관
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal10')">②</span>
+                            학예연구관, 학예연구사 또는 나군 이상의 전문경력관
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal10')">③</span>
+                            문화유산 관련 업무를 2년 이상 수행한 공무원
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal10')">④</span>
+                            「연구직 및 지도직공무원의 임용 등에 관한 규정」에 따른 학문을 전공하고 해당 분야의 석사 이상의 학위를 받은 공무원
+                        </div>
+                    </div>
+                </div>
+                <!-- 문제 영역이 끝나는 부분 아래에 배치 -->
+                <div id="answerModal10" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span id="answerText">정답입니다!</span> <!-- 좌측 정답 여부 표시 -->
+                            <button class="confirm-button" onclick="closeModal('answerModal10')">확인</button>
+                            <!-- 우측 끝 확인 버튼 -->
+                        </div>
+                        <!-- 하단 텍스트 영역을 아래에 배치 -->
+                        <div class="modal-body">
+                            <p id="lawText">법조문 ; 문화유산의 보존 및 활용에 관한 법률 시행령 제2조의2 제1항 <br> (문화유산전담관의 지정 등) ① 지방자치단체의 장은 법 제4조의2제1항에 따라 문화유산의 보존ㆍ관리 및 활용 관련 업무를 담당하는 부서의 장을 문화유산전담관으로 지정한다.
+                            </p>
+                            <!-- 법조문 표시 -->
+                        </div>
+                    </div>
+                </div>
+                <div class="question">
+                    <p>11. 문화유산의 보존 및 활용에 관한 법령상 문화유산기본계획에 관한 설명으로 옳지 않은 것은?  </p>
+                    <div class="choices">
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal11')">①</span>
+                            국가유산청장은 문화유산의 보존ㆍ관리 및 활용을 위하여 종합적인 기본계획을 5년마다 수립하여야 한다.
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal11')">②</span>
+                            국가유산청장은 기본계획을 수립하는 경우 지정문화유산의 소유자, 관리자 또는 관리단체 및 관련 전문가의 의견을 들어야 한다.
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, true, 'answerModal11')">③</span>
+                            국가유산청장은 기본계획을 수립하는 경우 「근현대문화유산의 보존 및 활용에 관한 법률」에 따른 등록문화유산의 소유자 또는 관리자의 의견은 청취 대상이 아니다.
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal11')">④</span> 
+                            국가유산청장은 기본계획을 수립하면 이를 시ㆍ도지사에게 알리고, 관보(官報) 등에 고시하여야 한다.     
+                        </div>
+                    </div>
+                </div>
+                <!-- 문제 영역이 끝나는 부분 아래에 배치 -->
+                <div id="answerModal11" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span id="answerText">정답입니다!</span> <!-- 좌측 정답 여부 표시 -->
+                            <button class="confirm-button" onclick="closeModal('answerModal11')">확인</button>
+                            <!-- 우측 끝 확인 버튼 -->
+                        </div>
+                        <!-- 하단 텍스트 영역을 아래에 배치 -->
+                        <div class="modal-body">
+                            <p id="lawText">법조문 ; 문화유산의 보존 및 활용에 관한 법률 시행령 제3조 제1호 <br> 1. 지정문화유산이나 「근현대문화유산의 보존 및 활용에 관한 법률」 제2조제2호에 따른 등록문화유산(이하 “등록문화유산”이라 한다)의 소유자 또는 관리자
+                            </p> <!-- 법조문 표시 -->
+                        </div>
+                    </div>
+                </div>
+                <!-- 문제 영역 -->
+                <div class="question">
+                    <p>12. 문화유산의 보존 및 활용에 관한 법령상 문화유산기본계획에 포함되어야 하는 사항으로 옳지 않은 것은? </p>
+                    <div class="choices">
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal12')">①</span>
+                            문화유산 안전관리에 관한 사항
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal12')">②</span>
+                            문화유산 관련 시설 및 구역에서의 감염병 등에 대한 위생ㆍ방역 관리에 관한 사항
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal12')">③</span>
+                            문화유산지능정보화에 관한 사항
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, true, 'answerModal12')">④</span>
+                            문화유산 전문인력의 양성 및 지원에 관한 사항
+                        </div>
+                    </div>
+                </div>
+                <!-- 문제 영역이 끝나는 부분 아래에 배치 -->
+                <div id="answerModal12" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span id="answerText">정답입니다!</span> <!-- 좌측 정답 여부 표시 -->
+                            <button class="confirm-button" onclick="closeModal('answerModal12')">확인</button>
+                            <!-- 우측 끝 확인 버튼 -->
+                        </div>
+                        <!-- 하단 텍스트 영역을 아래에 배치 -->
+                        <div class="modal-body">
+                            <p id="lawText">법조문 ; 문화유산의 보존 및 활용에 관한 법률 제6조 제1항 <br> (문화유산기본계획의 수립) ① 국가유산청장은 관계 중앙행정기관의 장 및 시ㆍ도지사와의 협의를 거쳐 문화유산의 보존ㆍ관리 및 활용을 위하여 다음 각 호의 사항이 포함된 종합적인 기본계획(이하 “기본계획”이라 한다)을 5년마다 수립하여야 한다.
+                            </p>
+                            <!-- 법조문 표시 -->
+                        </div>
+                    </div>
+                </div>
+                <!-- ✅ 2유형: 빈칸 또는 괄호 채워넣기형 문제 템플릿 -->
+                <div class="question">
+                    <p>13. 문화유산의 보존 및 활용에 관한 법령상 국가유산청장은 기본계획을 수립하는 경우 대통령령이 정하는 소유자, 관리자 또는 관리단체 및 관련 전문가의 의견을 들어야 한다. 해당하는 것을 모두 고른 것은?
+                    </p>
+                    <!-- 보기 박스 -->
+                    <div class="example-box"
+                        style="margin-top: 10px; margin-bottom: 30px; padding: 10px; padding-left: 30px; background-color: #f4f4f4; border-radius: 5px; text-align: justify;">
+                        <p>ㄱ. 지정문화유산이나 등록문화유산의 소유자 또는 관리자</p>
+                        <p>ㄴ. 지정문화유산이나 등록문화유산의 관리단체</p>
+                        <p>ㄷ. 「국가유산기본법」 제9조에 따른 국가유산위원회의 위원</p>
+                        <p>ㄹ. 그 밖에 문화유산과 관련된 전문적인 지식이나 경험을 가진 자로서 국가유산청장이 정하여 고시하는 자</p>                        
+                    </div>
+                    <div class="choices choices-horizontal" style="margin-top: 50px;">
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal13')">①</span>
+                            ㄱ, ㄴ
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModa13')">②</span>
+                            ㄷ, ㄹ
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button" onclick="handleChoiceClick(this, false, 'answerModal13')">③</span>
+                            ㄱ, ㄴ, ㄷ
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, true, 'answerModal13')">④</span>
+                            ㄱ, ㄴ, ㄷ, ㄹ
+                        </div>
+                    </div>
+                </div>
+                <!-- 문제 영역이 끝나는 부분 아래에 배치 -->
+                <div id="answerModal13" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span id="answerText">정답입니다!</span> <!-- 좌측 정답 여부 표시 -->
+                            <button class="confirm-button" onclick="closeModal('answerModal13')">확인</button>
+                            <!-- 우측 끝 확인 버튼 -->
+                        </div>
+                        <!-- 하단 텍스트 영역을 아래에 배치 -->
+                        <div class="modal-body">
+                            <p id="lawText">법조문 ; 문화유산의 보존 및 활용에 관한 법률 시행령 제3조  <br> (문화유산기본계획 수립을 위한 의견 청취 대상자) 법 제6조제2항에서 “대통령령으로 정하는 소유자, 관리자 또는 관리단체 및 관련 전문가”란 다음 각 호의 어느 하나에 해당하는 자를 말한다.
+                            </p> <!-- 법조문 표시 -->
+                        </div>
+                    </div>
+                </div>                
+                <div class="question">
+                    <p>14. 문화유산의 보존 및 활용에 관한 법령상 문화유산기본계획에 관한 설명으로 옳지 않은 것은? </p>
+                    <div class="choices">
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal14')">①</span>
+                            국가유산청장은 관계 중앙행정기관의 장 및 시ㆍ도지사와의 협의를 거쳐 문화유산기본계획을 5년마다 수립하여야 한다.   
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal14')">②</span>
+                            종합적 기본계획에는 문화유산기록정보화에 관한 사항이 포함된다.
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, true, 'answerModal14')">③</span>
+                            시장ㆍ군수ㆍ구청장은 문화유산기본계획에 관한 연도별 시행계획을 수립ㆍ시행하여야 한다.
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal14')">④</span>
+                            문화유산기본계획에 관한 연도별 시행계획을 수립한 때에는 이를 공표하여야 한다.    
+                        </div>
+                    </div>
+                </div>
+                <!-- 문제 영역이 끝나는 부분 아래에 배치 -->
+                <div id="answerModal14" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span id="answerText">정답입니다!</span> <!-- 좌측 정답 여부 표시 -->
+                            <button class="confirm-button" onclick="closeModal('answerModal14')">확인</button>
+                            <!-- 우측 끝 확인 버튼 -->
+                        </div>
+                        <!-- 하단 텍스트 영역을 아래에 배치 -->
+                        <div class="modal-body">
+                            <p id="lawText">법조문 ; 문화유산의 보존 및 활용에 관한 법률 제7조  <br>  (문화유산 보존 시행계획 수립) ① 국가유산청장 및 시ㆍ도지사는 기본계획에 관한 연도별 시행계획(이하 “시행계획”이라 한다)을 수립ㆍ시행하여야 한다.
+                            </p> <!-- 법조문 표시 -->
+                        </div>
+                    </div>
+                </div>
+                <!-- 문제 영역 -->
+                <div class="question">
+                    <p>15. 문화유산의 보존 및 활용에 관한 법령상 문화유산 보호 정책의 수립 및 추진 등에 관한 설명으로 옳지 않은 것은? 
+                    </p>
+                    <div class="choices">
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, true, 'answerModal15')">①</span>
+                            종합적 기본계획에는 국가유산위원회의 설치, 운영 등에 관한 사항이 포함된다.
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal15')">②</span>
+                            시ㆍ도지사는 해당 연도의 시행계획 및 전년도의 추진실적을 매년 1월 31일까지 국가유산청장에게 제출하여야 한다. 
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal15')">③</span>
+                            시ㆍ도지사는 해당 연도의 시행계획을 매년 2월 말일까지 해당 시ㆍ도의 게시판과 인터넷 홈페이지를 통하여 공고해야 한다.
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal15')">④</span>
+                            국가유산청장은 기본계획, 해당 연도 시행계획 및 전년도 추진실적을 확정한 후 지체없이 국회 소관 상임위원회에 제출하여야 한다.
+                        </div>
+                    </div>
+                </div>
+                <!-- 문제 영역이 끝나는 부분 아래에 배치 -->
+                <div id="answerModal15" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span id="answerText">정답입니다!</span> <!-- 좌측 정답 여부 표시 -->
+                            <button class="confirm-button" onclick="closeModal('answerModal15')">확인</button>
+                            <!-- 우측 끝 확인 버튼 -->
+                        </div>
+                        <!-- 하단 텍스트 영역을 아래에 배치 -->
+                        <div class="modal-body">
+                            <p id="lawText">법조문 ; 문화유산의 보존 및 활용에 관한 법률 제6조 제1항  <br> (문화유산기본계획의 수립) ① 국가유산청장은 관계 중앙행정기관의 장 및 시ㆍ도지사와의 협의를 거쳐 문화유산의 보존ㆍ관리 및 활용을 위하여 다음 각 호의 사항이 포함된 종합적인 기본계획(이하 “기본계획”이라 한다)을 5년마다 수립하여야 한다. 
+                            </p>
+                            <!-- 법조문 표시 -->
+                        </div>
+                    </div>
+                </div>
+                <div class="question">
+                    <p>16. 문화유산의 보존 및 활용에 관한 법령상 문화유산 기초조사에 관한 설명으로 옳은 것은? </p>
+                    <div class="choices">
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal16')">①</span>
+                            국가 및 지방자치단체는 문화유산의 멸실 방지 등을 위하여 현존하는 문화유산의 현황, 관리실태 등에 대하여 조사하고 그 기록을 작성하여야 한다.
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal16')">②</span>
+                            국가유산청장은 문화유산 기초조사를 위하여 문화유산의 소유자에게 관련 자료의 제출을 요구할 수 있고, 소유자가 자료를 제출하지 않을 경우 과태료를 부과할 수 있다.
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, true, 'answerModal16')">③</span>
+                            국가유산청장 및 지방자치단체의 장은 지정문화유산이 아닌 문화유산에 대하여 조사를 할 경우에는 해당 문화유산의 소유자 또는 관리자의 사전 동의를 받아야 한다.
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal16')">④</span> 
+                            국가유산청장은 문화유산 기초조사가 끝난 후 90일 안에 결과보고서를 작성하여야 한다.    
+                        </div>
+                    </div>
+                </div>
+                <!-- 문제 영역이 끝나는 부분 아래에 배치 -->
+                <div id="answerModal16" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span id="answerText">정답입니다!</span> <!-- 좌측 정답 여부 표시 -->
+                            <button class="confirm-button" onclick="closeModal('answerModal16')">확인</button>
+                            <!-- 우측 끝 확인 버튼 -->
+                        </div>
+                        <!-- 하단 텍스트 영역을 아래에 배치 -->
+                        <div class="modal-body">
+                            <p id="lawText">법조문 ; 문화유산의 보존 및 활용에 관한 법률 제10조 제3항 <br> ③ 국가유산청장 및 지방자치단체의 장은 지정문화유산이 아닌 문화유산에 대하여 조사를 할 경우에는 해당 문화유산의 소유자 또는 관리자의 사전 동의를 받아야 한다.
+                            </p> <!-- 법조문 표시 -->
+                        </div>
+                    </div>
+                </div>
+                <!-- 문제 영역 -->
+                <div class="question">
+                    <p>17. 문화유산의 보존 및 활용에 관한 법령상 문화유산 기초조사를 할 수 있는 자가 아닌 것은? 
+                    </p>
+                    <div class="choices">
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal17')">①</span>
+                            국가유산청장
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal17')">②</span>
+                            지방자치단체의 장
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal17')">③</span>
+                            국가유산청장을 제외한 중앙행정기관의 장 
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, true, 'answerModal17')">④</span>
+                            조사 권한을 위탁받은 「박물관 및 미술관 진흥법」에 따른 박물관장 또는 미술관장
+                        </div>
+                    </div>
+                </div>
+                <!-- 문제 영역이 끝나는 부분 아래에 배치 -->
+                <div id="answerModal17" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span id="answerText">정답입니다!</span> <!-- 좌측 정답 여부 표시 -->
+                            <button class="confirm-button" onclick="closeModal('answerModal17')">확인</button>
+                            <!-- 우측 끝 확인 버튼 -->
+                        </div>
+                        <!-- 하단 텍스트 영역을 아래에 배치 -->
+                        <div class="modal-body">
+                            <p id="lawText">법조문 ; 문화유산의 보존 및 활용에 관한 법률 시행령 제6조 각 항 <br> 법조문 참조
+                            </p>
+                            <!-- 법조문 표시 -->
+                        </div>
+                    </div>
+                </div>               
+                <!-- 문제 영역 -->
+                <div class="question">
+                    <p>18. 문화유산의 보존 및 활용에 관한 법령의 내용이다. 규정과 다른 것은? 
+                    </p>
+                    <div class="choices">
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal18')">①</span>
+                            국가 및 지방자치단체는 문화유산의 멸실 방지 등을 위하여 현존하는 문화유산의 현황, 관리실태 등에 대하여 조사하고 그 기록을 작성할 수 있다.
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal18')">②</span>
+                            국가유산청장과 시ㆍ도지사는 이 법에 따른 화재, 풍수해, 재난 및 도난 방지를 위하여 필요한 시책을 수립하고 이를 시행하여야 한다.
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal18')">③</span>
+                            국가유산청장은 문화유산매매업자 등을 대상으로 문화유산매매업자가 준수하여야 할 사항과 문화유산 관련 소양 등에 관한 교육을 실시하여야 한다. 
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, true, 'answerModal18')">④</span>
+                            국가유산청장 또는 지방자치단체의 장은 장애인이 문화유산에 쉽게 접근할 수 있도록 점자표시 등의 보조서비스 제공 및 편의시설 설치 등 필요한 시책을 마련할 수 있다.
+                        </div>
+                    </div>
+                </div>
+                <!-- 문제 영역이 끝나는 부분 아래에 배치 -->
+                <div id="answerModal18" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span id="answerText">정답입니다!</span> <!-- 좌측 정답 여부 표시 -->
+                            <button class="confirm-button" onclick="closeModal('answerModal18')">확인</button>
+                            <!-- 우측 끝 확인 버튼 -->
+                        </div>
+                        <!-- 하단 텍스트 영역을 아래에 배치 -->
+                        <div class="modal-body">
+                            <p id="lawText">법조문 ; 문화유산의 보존 및 활용에 관한 법률 제15조의3 제1항 <br> (장애인의 문화유산 접근성 향상을 위한 지원) ① 국가유산청장 또는 지방자치단체의 장은 장애인이 문화유산에 쉽게 접근할 수 있도록 점자표시, 안내보조 등의 보조서비스 제공 및 편의시설 설치 등 필요한 시책을 마련하여야 한다.
+                            </p>
+                            <!-- 법조문 표시 -->
+                        </div>
+                    </div>
+                </div>
+                <!-- ✅ 2유형: 빈칸 또는 괄호 채워넣기형 문제 템플릿 -->
+                <div class="question">
+                    <p>19. 문화유산의 보존 및 활용에 관한 법령상 문화유산정보체계의 구축 범위에 해당하는 사항을 모두 고른 것은? </p>
+                    <!-- 보기 박스 -->
+                    <div class="example-box"
+                        style="margin-top: 10px; margin-bottom: 30px; padding: 10px; padding-left: 30px; background-color: #f4f4f4; border-radius: 5px; text-align: justify;">
+                        <p>ㄱ. 문화유산의 명칭, 소재지, 소유자 등이 포함된 기본현황자료</p>
+                        <p>ㄴ. 문화유산의 보존ㆍ관리 및 활용에 관한 자료</p>
+                        <p>ㄷ. 문화유산 조사ㆍ발굴 및 연구 자료</p>
+                        <p>ㄹ. 사진, 도면, 동영상 등 해당 문화유산의 이해에 도움이 되는 자료</p>                        
+                    </div>
+                    <div class="choices choices-horizontal" style="margin-top: 50px;">
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal19')">①</span>
+                            ㄱ, ㄴ
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModa19')">②</span>
+                            ㄱ, ㄴ, ㄹ
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button" onclick="handleChoiceClick(this, false, 'answerModal19')">③</span>
+                            ㄱ, ㄷ, ㄹ
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, true, 'answerModal19')">④</span>
+                            ㄱ, ㄴ, ㄷ, ㄹ
+                        </div>
+                    </div>
+                </div>
+                <!-- 문제 영역이 끝나는 부분 아래에 배치 -->
+                <div id="answerModal19" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span id="answerText">정답입니다!</span> <!-- 좌측 정답 여부 표시 -->
+                            <button class="confirm-button" onclick="closeModal('answerModal19')">확인</button>
+                            <!-- 우측 끝 확인 버튼 -->
+                        </div>
+                        <!-- 하단 텍스트 영역을 아래에 배치 -->
+                        <div class="modal-body">
+                            <p id="lawText">법조문 ; 문화유산의 보존 및 활용에 관한 법률 시행령 제7조 제1항 <br> (문화유산정보체계 구축 범위 및 운영 등) ① 법 제11조제1항에 따른 문화유산정보체계의 구축 범위는 다음 각 호와 같다.
+                            </p> <!-- 법조문 표시 -->
+                        </div>
+                    </div>
+                </div>
+                <!-- 문제 영역 -->
+                <div class="question">
+                    <p>20. 문화유산의 보존 및 활용에 관한 법령상 건설공사에 관한 설명으로 옳은 것은? (기출)
+                    </p>
+                    <div class="choices">
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal20')">①</span>
+                            역사문화환경 보존지역에서 수목을 제거하는 공사는 건설공사에 해당하지 않는다.
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal20')">②</span>
+                            건설공사로 인하여 문화유산이 수몰될 우려가 있을 때에는 그 건설공사의 시행자는 시ㆍ도지사의 지시에 따라 필요한 조치를 하여야 한다.
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal20')">③</span>
+                            지정문화유산의 외곽 경계로부터 500미터 밖에서 하는 건설공사가 문화유산에 영향을 미칠 것이 확실하다고 인정되더라도 역사문화환경 보존지역의 범위는 지정문화유산의 외곽 경계로부터 500미터를 초과하여 정할 수 없다.
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, true, 'answerModal20')">④</span>
+                            전기공사는 지표의 원형을 변형하는 경우에만 건설공사에 해당한다.
+                        </div>
+                    </div>
+                </div>
+                <!-- 문제 영역이 끝나는 부분 아래에 배치 -->
+                <div id="answerModal20" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span id="answerText">정답입니다!</span> <!-- 좌측 정답 여부 표시 -->
+                            <button class="confirm-button" onclick="closeModal('answerModal20')">확인</button>
+                            <!-- 우측 끝 확인 버튼 -->
+                        </div>
+                        <!-- 하단 텍스트 영역을 아래에 배치 -->
+                        <div class="modal-body">
+                            <p id="lawText">법조문 ; 문화유산의 보존 및 활용에 관한 법률 시행령 제2조 <br> 법 제2조제8항에서 “대통령령으로 정하는 공사”란 다음 각 호의 공사를 말한다. 다만, 제2호부터 제4호까지의 공사는 지표(地表)의 원형을 변형하는 경우만 해당한다. 
+                            </p>
+                            <!-- 법조문 표시 -->
+                        </div>
+                    </div>
+                </div>
+                <div class="question">
+                    <p>21. 문화유산의 보존 및 활용에 관한 법령상 역사문화환경 보존지역(이하 “보존지역이라 한다.)에 관한 설명으로 옳은 것은?  </p>
+                    <div class="choices">
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal21')">①</span>
+                            시ㆍ도지사는 지정문화유산의 역사문화환경 보호를 위하여 국가유산청장과 협의하여 조례로 보존지역을 정할 수 있다. 
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal21')">②</span>
+                            국가유산청장이 정하는 보존지역에서의 구체적 행위기준은 역사문화환경을 보호하기 위한 것이다.
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal21')">③</span>
+                            건설공사의 인허가 행정기관은 보존지역에서 시행하는 건설공사에 관하여는 인가ㆍ허가 등을 하기 전에  「국가유산영향진단법」에 따른 영향진단을 실시하여야 한다. 
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, true, 'answerModal21')">④</span> 
+                            시ㆍ도지사는 시ㆍ도지정문화유산 및 문화유산자료를 지정하면 그 지정 고시가 있는 날부터 6개월 안에 보존지역에서 지정문화유산의 보존에 영향을 미칠 우려가 있는 행위에 관한 구체적인 행위기준을 정하여 고시하여야 한다.     
+                        </div>
+                    </div>
+                </div>
+                <!-- 문제 영역이 끝나는 부분 아래에 배치 -->
+                <div id="answerModal21" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span id="answerText">정답입니다!</span> <!-- 좌측 정답 여부 표시 -->
+                            <button class="confirm-button" onclick="closeModal('answerModal21')">확인</button>
+                            <!-- 우측 끝 확인 버튼 -->
+                        </div>
+                        <!-- 하단 텍스트 영역을 아래에 배치 -->
+                        <div class="modal-body">
+                            <p id="lawText">법조문 ; 문화유산의 보존 및 활용에 관한 법률 제13조 제5항 <br>  ⑤ 국가유산청장이 국가지정문화유산을 지정하거나 시ㆍ도지사가 시ㆍ도지정문화유산 및 문화유산자료를 지정하면 그 지정 고시가 있는 날부터 6개월 안에 역사문화환경 보존지역에서 지정문화유산의 보존에 영향을 미칠 우려가 있는 행위에 관한 구체적인 행위기준을 정하여 고시하여야 한다. 
+                            </p> <!-- 법조문 표시 -->
+                        </div>
+                    </div>
+                </div>                
+                <!-- ✅ 2유형: 빈칸 또는 괄호 채워넣기형 문제 템플릿 -->
+                <div class="question">
+                    <p>22. 문화유산의 보존 및 활용에 관한 법령상 시ㆍ도지사가 역사문화환경 보존지역(이하 “보존지역”이라 한다)의 주민지원사업 계획을 수립할 때 고려해야 하는 기준에 관한 내용이다. 해당하는 것을 모두 고른 것은? </p>
+                    <!-- 보기 박스 -->
+                    <div class="example-box"
+                        style="margin-top: 10px; margin-bottom: 30px; padding: 10px; padding-left: 30px; background-color: #f4f4f4; border-radius: 5px; text-align: justify;">
+                        <p>ㄱ. 보존지역 및 그 주변 경관에 미치는 영향이 적을 것</p>
+                        <p>ㄴ. 주민의 생활환경 개선 및 복리 증진의 실효성이 클 것</p>
+                        <p>ㄷ. 이 법에 따른 보존지역의 주민 의견 청취 결과 시ㆍ도지사의 사업계획에 적극 동의할 것</p>
+                        <p>ㄹ. 주민지원사업 비용 및 재원 조달이 용이할 것</p>                        
+                    </div>
+                    <div class="choices choices-horizontal" style="margin-top: 50px;">
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, true, 'answerModal22')">①</span>
+                            ㄱ, ㄴ
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal22')">②</span>
+                            ㄱ, ㄴ, ㄷ
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal22')">③</span>
+                            ㄱ. ㄷ. ㄹ
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal22')">④</span>
+                            ㄱ. ㄴ. ㄷ. ㄹ
+                        </div>
+                    </div>
+                </div>
+                <!-- 문제 영역이 끝나는 부분 아래에 배치 -->
+                <div id="answerModal22" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span id="answerText">정답입니다!</span> <!-- 좌측 정답 여부 표시 -->
+                            <button class="confirm-button" onclick="closeModal('answerModal22')">확인</button>
+                            <!-- 우측 끝 확인 버튼 -->
+                        </div>
+                        <!-- 하단 텍스트 영역을 아래에 배치 -->
+                        <div class="modal-body">
+                            <p id="lawText">법조문 ; 문화유산의 보존 및 활용에 관한 법률 시행령 제7조의3 제3항  <br> ③ 시ㆍ도지사는 주민지원사업 계획을 수립할 때에는 다음 각 호의 기준을 고려해야 한다.
+                            </p> <!-- 법조문 표시 -->
+                        </div>
+                    </div>
+                </div>
+                <!-- 문제 영역 -->
+                <div class="question">
+                    <p>23. 문화유산의 보존 및 활용에 관한 법령상 화재등 방지 시책 수립과 교육훈련ㆍ홍보 실시 등에 관한 내용이다. 옳지 않은 것은? 
+                    </p>
+                    <div class="choices">
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, true, 'answerModal23')">①</span>
+                            국가유산청장과 지방자치단체의 장은 지정문화유산 및 등록문화유산의 화재, 풍수해, 재난 및 도난(이하 “화재등”이라 한다) 방지를 위하여 필요한 시책을 수립하고 이를 시행하여야 한다.
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal23')">②</span>
+                            국가유산청장과 지방자치단체의 장은 문화유산 소유자, 관리자 및 관리단체 등을 대상으로 문화유산 화재등에 대한 초기대응과 평상시 예방관리를 위한 교육 및 화재등 대비 훈련을 실시하여야 한다.
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal23')">③</span>
+                            국가유산청장과 지방자치단체의 장은 화재등 대비훈련 결과를 토대로 문화유산 화재등의 방지를 위하여 필요한 조치를 하여야 한다.
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal23')">④</span>
+                            국가유산청장과 지방자치단체의 장은 문화유산 화재등의 방지를 위한 대국민 홍보를 실시하여야 한다.
+                        </div>
+                    </div>
+                </div>
+                <!-- 문제 영역이 끝나는 부분 아래에 배치 -->
+                <div id="answerModal23" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span id="answerText">정답입니다!</span> <!-- 좌측 정답 여부 표시 -->
+                            <button class="confirm-button" onclick="closeModal('answerModal23')">확인</button>
+                            <!-- 우측 끝 확인 버튼 -->
+                        </div>
+                        <!-- 하단 텍스트 영역을 아래에 배치 -->
+                        <div class="modal-body">
+                            <p id="lawText">법조문 ; 문화유산의 보존 및 활용에 관한 법률 제14조 제1항  <br> (화재등 방지 시책 수립과 교육훈련ㆍ홍보 실시 등) ① 국가유산청장과 시ㆍ도지사는 지정문화유산 및 「근현대문화유산의 보존 및 활용에 관한 법률」 제2조제2호에 따른 등록문화유산(이하 “등록문화유산”이라 한다)의 화재, 풍수해, 재난 및 도난(이하 “화재등”이라 한다) 방지를 위하여 필요한 시책을 수립하고 이를 시행하여야 한다.
+                            </p>
+                            <!-- 법조문 표시 -->
+                        </div>
+                    </div>
+                </div>
+                <div class="question">
+                    <p>24. 문화유산의 보존 및 활용에 관한 법령상 화재등 대비 훈련의 주관기관은? </p>
+                    <div class="choices">
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, true, 'answerModal24')">①</span>
+                            국가유산청과 지방자치단체
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal24')">②</span>
+                            소방관서
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal24')">③</span>
+                            경찰관서
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal24')">④</span>
+                            「재난 및 안전관리 기본법」 제3조제5호의 재난관리책임기관 
+                        </div>
+                    </div>
+                </div>
+                <!-- 문제 영역이 끝나는 부분 아래에 배치 -->
+                <div id="answerModal24" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span id="answerText">정답입니다!</span> <!-- 좌측 정답 여부 표시 -->
+                            <button class="confirm-button" onclick="closeModal('answerModal24')">확인</button>
+                            <!-- 우측 끝 확인 버튼 -->
+                        </div>
+                        <!-- 하단 텍스트 영역을 아래에 배치 -->
+                        <div class="modal-body">
+                            <p id="lawText">법조문 ; 문화유산의 보존 및 활용에 관한 법률 시행규칙 제2조3 제1항  <br> (화재등 대비 훈련의 실시) ① 국가유산청장과 지방자치단체의 장(이하 “훈련주관기관의 장”이라 한다)은 법 제14조의5 각 호에 따른 기관 또는 단체(이하 이 조 및 제2조의4에서 “관계 기관”이라 한다)와 합동으로 법 제14조제2항에 따른 화재, 재난 및 도난(이하 “화재등”이라 한다) 대비 훈련을 연 1회 이상 실시해야 한다.
+                            </p> <!-- 법조문 표시 -->
+                        </div>
+                    </div>
+                </div>
+                <!-- 문제 영역 -->
+                <div class="question">
+                    <p>25. 문화유산의 보존 및 활용에 관한 법령상 화재등 대응매뉴얼 등에 관한 내용으로 옳지 않은 것은? 
+                    </p>
+                    <div class="choices">
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal25')">①</span>
+                            지정문화유산 중 석조건축물류는 화재등 대응매뉴얼을 마련하여야 하는 문화유산이다. 
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, true, 'answerModal25')">②</span>
+                            지정문화유산 중 분묘(墳墓)는 그 범위에 포함되지 않는다. 
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal25')">③</span>
+                            등록문화유산 중 동산에 해당하는 문화유산은 도난 대응매뉴얼을 마련하여야 한다. 
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal25')">④</span>
+                            화재 및 재난 시 문화유산의 이동ㆍ분산대피 등 대응방법이 포함되어야 한다. 
+                        </div>
+                    </div>
+                </div>
+                <!-- 문제 영역이 끝나는 부분 아래에 배치 -->
+                <div id="answerModal25" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span id="answerText">정답입니다!</span> <!-- 좌측 정답 여부 표시 -->
+                            <button class="confirm-button" onclick="closeModal('answerModal25')">확인</button>
+                            <!-- 우측 끝 확인 버튼 -->
+                        </div>
+                        <!-- 하단 텍스트 영역을 아래에 배치 -->
+                        <div class="modal-body">
+                            <p id="lawText">법조문 ; 문화유산의 보존 및 활용에 관한 법률 시행령 제8조 제1항 제1호 <br> ① 법 제14조의2제1항에 따라 화재 및 재난 대응매뉴얼을 마련하여야 하는 문화유산의 범위는 다음 각 호와 같다. 
+                            1. 지정문화유산 중 목조건축물류, 석조건축물류, 분묘(墳墓), 조적조(組積造) 및 콘크리트조 건축물류
+                            </p>
+                            <!-- 법조문 표시 -->
+                        </div>
+                    </div>
+                </div>
+                <!-- ✅ 2유형: 빈칸 또는 괄호 채워넣기형 문제 템플릿 -->
+                <div class="question">
+                    <p>26. 문화유산의 보존 및 활용에 관한 법령상 화재 및 재난 대응매뉴얼을 마련하여야 하는 문화유산의 범위에 속하는 것은? </p>
+                    <!-- 보기 박스 -->
+                    <div class="example-box"
+                        style="margin-top: 10px; margin-bottom: 30px; padding: 10px; padding-left: 30px; background-color: #f4f4f4; border-radius: 5px; text-align: justify;">
+                        <p>ㄱ. 지정문화유산 중 분묘(墳墓)</p>
+                        <p>ㄴ. 지정문화유산 안에 있는 석조건축물</p>
+                        <p>ㄷ. 「국가유산기본법」에 따른 세계유산 안에 있는 조적조(組積造) 및 콘크리트조 건축물</p>
+                        <p>ㄹ. 등록문화유산 중 건축물</p>
+                    </div>
+                    <div class="choices choices-horizontal" style="margin-top: 50px;">
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal26')">①</span>
+                            ㄱ, ㄴ
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal26')">②</span>
+                            ㄴ, ㄷ
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal26')">③</span>
+                            ㄷ, ㄹ
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button" onclick="handleChoiceClick(this, true, 'answerModal26')">④</span>
+                            ㄱ, ㄹ
+                        </div>
+                    </div>
+                </div>
+                <!-- 문제 영역이 끝나는 부분 아래에 배치 -->
+                <div id="answerModal26" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span id="answerText">정답입니다!</span> <!-- 좌측 정답 여부 표시 -->
+                            <button class="confirm-button" onclick="closeModal('answerModal26')">확인</button>
+                            <!-- 우측 끝 확인 버튼 -->
+                        </div>
+                        <!-- 하단 텍스트 영역을 아래에 배치 -->
+                        <div class="modal-body">
+                            <p id="lawText">법조문 ; 문화유산의 보존 및 활용에 관한 법률 시행령 제8조 제1항 <br> ① 법 제14조의2제1항에 따라 화재 및 재난 대응매뉴얼을 마련하여야 하는 문화유산의 범위는 다음 각 호와 같다. 
+                            </p> <!-- 법조문 표시 -->
+                        </div>
+                    </div>
+                </div>
+                <!-- 문제 영역 -->
+                <div class="question">
+                    <p>27. 문화유산의 보존 및 활용에 관한 법령상 화재, 재난 및 도난 대응매뉴얼에 포함되어야 할 사항이 아닌 것은? </p>
+                    <div class="choices">
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal27')">①</span>
+                            화재, 재난 및 도난(이하 “화재등”이라 한다) 예방 활동
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, true, 'answerModal27')">②</span>
+                            소방시설, 재난방지 시설 또는 도난방지장치 등 문화유산 방재 시설의 사용 교육 및 훈련
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button" onclick="handleChoiceClick(this, false, 'answerModal27')">③</span>
+                            화재등 발생 시 신고방법
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal27')">④</span> 
+                            화재 및 재난 시 문화유산의 이동ㆍ분산대피 등 대응방법    
+                        </div>
+                    </div>
+                </div>
+                <!-- 문제 영역이 끝나는 부분 아래에 배치 -->
+                <div id="answerModal27" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span id="answerText">정답입니다!</span> <!-- 좌측 정답 여부 표시 -->
+                            <button class="confirm-button" onclick="closeModal('answerModal27')">확인</button>
+                            <!-- 우측 끝 확인 버튼 -->
+                        </div>
+                        <!-- 하단 텍스트 영역을 아래에 배치 -->
+                        <div class="modal-body">
+                            <p id="lawText">법조문 ; 문화유산의 보존 및 활용에 관한 법률 시행령 제8조 제3항 <br> ③ 제1항 및 제2항에 따른 대응매뉴얼에는 다음 각 호의 사항이 포함되어야 한다.
+                            </p> <!-- 법조문 표시 -->
+                        </div>
+                    </div>
+                </div>              
+                <!-- 문제 영역 -->
+                <div class="question">
+                    <p>28. 문화유산의 보존 및 활용에 관한 법령상 화재등 대응매뉴얼 및 도난방지장치의 설치기준 등에 관한 설명으로 옳지 않은 것은? 
+                    </p>
+                    <div class="choices">
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal28')">①</span>
+                            등록문화유산 중 동산은 도난 대응매뉴얼을 마련하여야 하는 대상이다.  
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button" onclick="handleChoiceClick(this, false, 'answerModal28')">②</span>
+                            도난방지장치를 설치할 때에는 지정문화유산이 훼손되지 아니하도록 하고, 지정문화유산 경관과 조화되도록 해야 한다.
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, true, 'answerModal28')">③</span>
+                            관할 시ㆍ도지사는 도난방지장치가 잘 작동되도록 정기적으로 점검ㆍ보완해야 한다.
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal28')">④</span>
+                            국가유산청장 및 시ㆍ도지사는 화재등 대응매뉴얼을 마련하여 해당 문화유산의 소유자, 관리자 또는 관리단체가 사용할 수 있도록 조치하여야 한다.
+                        </div>
+                    </div>
+                </div>
+                <!-- 문제 영역이 끝나는 부분 아래에 배치 -->
+                <div id="answerModal28" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span id="answerText">정답입니다!</span> <!-- 좌측 정답 여부 표시 -->
+                            <button class="confirm-button" onclick="closeModal('answerModal28')">확인</button>
+                            <!-- 우측 끝 확인 버튼 -->
+                        </div>
+                        <!-- 하단 텍스트 영역을 아래에 배치 -->
+                        <div class="modal-body">
+                            <p id="lawText">법조문 ; 문화유산의 보존 및 활용에 관한 법률 시행규칙 제3조 <br> (도난방지장치 설치기준) 법 제14조의3제1항에서 “문화체육관광부령으로 정하는 기준”이란 다음 각 호의 기준을 말한다.
+                            </p>
+                            <!-- 법조문 표시 -->
+                        </div>
+                    </div>
+                </div>
+                <div class="question">
+                    <p>29. 문화유산의 보존 및 활용에 관한 법령상 화재등 방지에 관한 규정으로 옳지 않은 것은?  </p>
+                    <div class="choices">
+                        <div class="choice">
+                            <span class="choice-button" onclick="handleChoiceClick(this, false, 'answerModal29')">①</span>
+                            지정문화유산의 소유자, 관리자 및 관리단체는 소방시설과 재난방지를 위한 시설을 설치하고 유지ㆍ관리하여야 한다. 
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal29')">②</span>
+                            문화유산의 소유자, 관리자 및 관리단체는 문화유산 화재등에 대한 초기대응과 평상시 예방관리를 위한 교육 및 화재등 대비 훈련을 연 1회 이상 받아야 한다. 
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal29')">③</span>
+                            국가유산청장과 지방자치단체의 장은 문화유산 화재등의 방지를 위한 대국민 홍보를 실시하여야 한다. 
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, true, 'answerModal29')">④</span>
+                            국가유산청장 및 시ㆍ도지사는 지정문화유산 및 등록문화유산과 그 보호물ㆍ보호구역 및 보관시설에 금연구역과 흡연구역을 알리는 표지를 설치하여야 한다.
+                        </div>
+                    </div>
+                </div>
+                <!-- 문제 영역이 끝나는 부분 아래에 배치 -->
+                <div id="answerModal29" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span id="answerText">정답입니다!</span> <!-- 좌측 정답 여부 표시 -->
+                            <button class="confirm-button" onclick="closeModal('answerModal29')">확인</button>
+                            <!-- 우측 끝 확인 버튼 -->
+                        </div>
+                        <!-- 하단 텍스트 영역을 아래에 배치 -->
+                        <div class="modal-body">
+                            <p id="lawText">법조문 ; 문화유산의 보존 및 활용에 관한 법률 제14조의4 제2항  <br> ② 지정문화유산등의 소유자, 관리자 또는 관리단체는 제1항에 따른 금연구역과 흡연구역을 알리는 표지를 설치하여야 한다. 
+                            </p> <!-- 법조문 표시 -->
+                        </div>
+                    </div>
+                </div>
+                <!-- 문제 영역 -->
+                <div class="question">
+                    <p>30. 문화유산의 보존 및 활용에 관한 법령상 화재등 대비 훈련의 실시 등에 관한 설명으로 옳지 않은 것은?
+                    </p>
+                    <div class="choices">
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal30')">①</span>
+                            국가유산청장과 지방자치단체의 장(이하 “훈련주관기관의 장”이라 한다)은 소방관서 등 관계 기관과 합동으로 화재, 재난 및 도난 대비 훈련을 연 1회 이상 실시해야 한다. 
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal30')">②</span>
+                            훈련주관기관의 장은 화재등 대비 훈련을 실시하기 전에 해당 훈련 참석 예정인 문화유산 소유자 등을 대상으로 사전교육을 해야 한다. 
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button" onclick="handleChoiceClick(this, true, 'answerModal30')">③</span>
+                            문화유산 화재등에 대한 초기대응과 평상시 예방관리를 위한 교육은 모든 국민을 대상으로 실시한다.
+                        </div>
+                        <div class="choice">
+                            <span class="choice-button"
+                                onclick="handleChoiceClick(this, false, 'answerModal30')">④</span>
+                            훈련주관기관의 장은 화재등 대비 훈련 결과를 토대로 화재등 대응 매뉴얼 개선ㆍ보완 등 필요한 조치를 해야 한다
+                        </div>
+                    </div>
+                </div>
+                <!-- 문제 영역이 끝나는 부분 아래에 배치 -->
+                <div id="answerModal30" class="modal">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <span id="answerText">정답입니다!</span> <!-- 좌측 정답 여부 표시 -->
+                            <button class="confirm-button" onclick="closeModal('answerModal30')">확인</button>
+                            <!-- 우측 끝 확인 버튼 -->
+                        </div>
+                        <!-- 하단 텍스트 영역을 아래에 배치 -->
+                        <div class="modal-body">
+                            <p id="lawText">법조문 ; 문화유산의 보존 및 활용에 관한 법률 제14조 제2항 <br> ② 국가유산청장과 지방자치단체의 장은 문화유산 소유자, 관리자 및 관리단체 등을 대상으로 문화유산 화재등에 대한 초기대응과 평상시 예방관리를 위한 교육 및 문화체육관광부령에 따른 화재등 대비 훈련을 실시하여야 한다.
+                            </p>
+                            <!-- 법조문 표시 -->
+                        </div>
+                    </div>
+                </div>              
+            </div>
+        </div>
+
+        <!-- 좌우 이동 버튼 -->
+        <div style="display: flex; justify-content: space-between; margin-top: 40px;">
+            <button onclick="goToPrev()" style="
+                width: 80px;
+                height: 35px;
+                font-size: 15px;
+                padding: 6px 10px;
+                background-color: #e8e7e7;
+                border: 1px solid #e8e7e7; /* 배경색과 동일하게 */
+                border-radius: 6px;">
+                ← 처음
+            </button>
+            <button onclick="goToNext()" style="
+                width: 80px;
+                height: 35px;
+                font-size: 15px;
+                padding: 6px 10px;
+                background-color: #e8e7e7;
+                border: 1px solid #e8e7e7;
+                border-radius: 6px;">
+                문화2 →
+            </button>
+        </div>
+        <!-- ✅ 저작권 문구 -->
+        <div style="text-align: center; margin-top: 30px;">
+            <p style="font-size: 13px; color: #999;">
+                ※ 이 모의고사 문제는 저작권 보호를 받으며, 무단 복제·배포·인용을 금합니다.
+            </p>
+        </div>
+    </div>
+    <script>
+        function goToPrev() {
+            // 이전 페이지 링크로 이동
+            window.location.href = "https://contents.premium.naver.com/2026/2024mocktest/contents/260921075628374iu";  // ← 원하는 URL로 교체
+        }
+
+        function goToNext() {
+            // 처음 페이지 링크로 이동
+            window.location.href = "m2.html";  // ← 원하는 URL로 교체
+        }
+    </script>
+
+</body>
+
+</html>
